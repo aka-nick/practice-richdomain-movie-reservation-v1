@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -25,11 +26,24 @@ public class Reservation {
     private Long showingId;
 
     @Column(name="fee_amount")
-    private Integer feeAmount;
+    private Money feeAmount;
 
     @Column(name="fee_currency")
-    private Integer feeCurrency;
+    private Money feeCurrency; // 뭔지 모르겠는 필드. 계속 사용되지 않으면 제거할 예정.
 
     @Column(name = "audience_count")
     private Integer audienceCount;
+
+    protected Reservation() {
+    }
+
+    @Builder
+    public Reservation(Long customerId, Long showingId, Money feeAmount, Integer audienceCount) {
+        this.customerId = customerId;
+        this.showingId = showingId;
+        this.feeAmount = feeAmount;
+        this.audienceCount = audienceCount;
+        this.feeCurrency = Money.ZERO;
+    }
+
 }

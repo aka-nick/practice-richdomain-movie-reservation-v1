@@ -45,6 +45,10 @@ public class Rule {
     @Column(name = "sequence")
     private Integer sequence;
 
+    public boolean isTimeOfDayRule() {
+        return ruleType == RuleType.TIME_RULE;
+    }
+
     enum RuleType {
         SEQUENCE_RULE, TIME_RULE
     }

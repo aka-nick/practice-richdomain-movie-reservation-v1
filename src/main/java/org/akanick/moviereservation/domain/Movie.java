@@ -26,9 +26,9 @@ public class Movie {
     private Integer runningTime;
 
     @Column(name="fee_amount")
-    private Integer feeAmount;
+    private Money feeAmount;
 
     @Column(name="fee_currency")
-    private Integer feeCurrency;
+    private Money feeCurrency;
 
 }

@@ -28,13 +28,17 @@ public class Discount {
     private DiscountType discountType;
 
     @Column(name = "fee_amount")
-    private Integer feeAmount;
+    private Money feeAmount;
 
     @Column(name = "fee_currency")
-    private Integer feeCurrency;
+    private Money feeCurrency;
 
     @Column(name = "percent")
     private Double percent;
+
+    public boolean isAmountType() {
+        return discountType == DiscountType.AMOUNT;
+    }
 
     enum DiscountType {
         AMOUNT, PERCENT
