@@ -21,8 +21,10 @@ public class Rule {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "discount_id")
-    private Long discountId;
+//    @Column(name = "discount_id")
+//    private Long discountId;
+    @Column(name = "movie_id")
+    private Long movieId;
 
     @Column(name = "position")
     private String position;
