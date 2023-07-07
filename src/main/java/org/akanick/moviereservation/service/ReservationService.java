@@ -133,7 +133,11 @@ public class ReservationService {
         Showing showing = showingRepository.findById(showingId)
                 .orElseThrow(() -> new RuntimeException("Showing not found"));
 
-        return showing.reserve(customer, audienceCount);
+        Reservation reservation = showing.reserve(customer, audienceCount);
+
+        reservationRepository.save(reservation);
+
+        return reservation;
     }
 
 }
