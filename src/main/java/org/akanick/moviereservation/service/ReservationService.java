@@ -2,13 +2,13 @@ package org.akanick.moviereservation.service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+import org.akanick.moviereservation.datasource.CustomerRepository;
 import org.akanick.moviereservation.datasource.DiscountRepository;
 import org.akanick.moviereservation.datasource.MovieRepository;
 import org.akanick.moviereservation.datasource.ReservationRepository;
 import org.akanick.moviereservation.datasource.RuleRepository;
 import org.akanick.moviereservation.datasource.ShowingRepository;
-import org.akanick.moviereservation.domain.Discount;
+import org.akanick.moviereservation.domain.Customer;
 import org.akanick.moviereservation.domain.Money;
 import org.akanick.moviereservation.domain.Movie;
 import org.akanick.moviereservation.domain.Reservation;
@@ -25,17 +25,20 @@ public class ReservationService {
     private final RuleRepository ruleRepository;
     private final DiscountRepository discountRepository;
     private final ReservationRepository reservationRepository;
+    private final CustomerRepository customerRepository;
 
     public ReservationService(MovieRepository movieRepository,
             ShowingRepository showingRepository,
             RuleRepository ruleRepository,
             DiscountRepository discountRepository,
-            ReservationRepository reservationRepository) {
+            ReservationRepository reservationRepository,
+            CustomerRepository customerRepository) {
         this.movieRepository = movieRepository;
         this.showingRepository = showingRepository;
         this.ruleRepository = ruleRepository;
         this.discountRepository = discountRepository;
         this.reservationRepository = reservationRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Transactional
@@ -118,6 +121,19 @@ public class ReservationService {
         }
 
         return null;
+    }
+
+
+    // 도메인 모델 패턴을 적용한 코드 ===========================
+
+    @Transactional
+    public Reservation reserveShowingOnDomainModelArchitecture(Long customerId, Long showingId, int audienceCount) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        Showing showing = showingRepository.findById(showingId)
+                .orElseThrow(() -> new RuntimeException("Showing not found"));
+
+        return showing.reserve(customer, audienceCount);
     }
 
 }
