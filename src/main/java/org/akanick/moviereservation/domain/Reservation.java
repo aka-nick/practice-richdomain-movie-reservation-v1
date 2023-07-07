@@ -28,14 +28,12 @@ public class Reservation {
     @Column(name="fee_amount")
     private Money feeAmount;
 
-    @Column(name="fee_currency")
-    private Money feeCurrency; // 뭔지 모르겠는 필드. 계속 사용되지 않으면 제거할 예정.
-
     @Column(name = "audience_count")
     private Integer audienceCount;
 
     protected Reservation() {
     }
+
 
     @Builder
     public Reservation(Long customerId, Long showingId, Money feeAmount, Integer audienceCount) {
@@ -43,7 +41,13 @@ public class Reservation {
         this.showingId = showingId;
         this.feeAmount = feeAmount;
         this.audienceCount = audienceCount;
-        this.feeCurrency = Money.ZERO;
     }
 
+    // 도메인 모델 패턴의 구현 ==========================================================
+    public Reservation(Customer customer, Showing showing, Integer audienceCount) {
+        this.customerId = customer.getId();
+        this.showingId = showing.getId();
+        this.feeAmount = showing.calculateFee().times(audienceCount);
+        this.audienceCount = audienceCount;
+    }
 }

@@ -28,7 +28,15 @@ public class Movie {
     @Column(name="fee_amount")
     private Money feeAmount;
 
-    @Column(name="fee_currency")
-    private Money feeCurrency;
+//    @Column(name="fee_currency")
+//    private Money feeCurrency;
 
+    // 도메인 모델 패턴의 구현 ================================================================
+
+    private DiscountStrategy discountStrategy;
+
+    public Money caculateFee(Showing showing) {
+        return feeAmount.minus(discountStrategy.caculateDiscountFee(showing));
+        return null;
+    }
 }
