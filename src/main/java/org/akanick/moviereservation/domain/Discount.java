@@ -8,8 +8,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
@@ -22,9 +20,8 @@ public class Discount {
     @GeneratedValue(strategy = IDENTITY)
     private Long id; // 예시에서는 Movie-Discount가 비식별관계지만, 편의상 식별관계로 변경한다.
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id")
-    private Movie movie;
+    @Column(name = "movie_id")
+    private Long movieId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "discount_type")
